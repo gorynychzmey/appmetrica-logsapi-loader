@@ -72,7 +72,8 @@ class LogsApiClient(object):
                         date_dimension: Optional[str],
                         parts_count: int,
                         part_number: int,
-                        force_recreate: bool):
+                        force_recreate: bool,
+                        extra_params: dict = None):
         url = '{host}/logs/v1/export/{table}.csv'.format(
             host=self.host,
             table=table
@@ -89,6 +90,8 @@ class LogsApiClient(object):
                 'date_until': date_until.strftime(date_format),
                 'date_dimension': date_dimension or self.DATE_DIMENSION_CREATE,
             })
+        if extra_params is not None:
+            params.update(extra_params) 
         if parts_count > 1:
             params.update({
                 'parts_count': parts_count,
