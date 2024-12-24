@@ -76,7 +76,8 @@ class Loader(object):
              date_since: Optional[datetime.datetime],
              date_until: Optional[datetime.datetime],
              date_dimension: Optional[str],
-             parts_count: int = 1) \
+             parts_count: int = 1,
+             extra_params: dict = None)\
             -> Generator[DataFrame, None, None]:
         part_number = 0
         first_request = True
@@ -91,7 +92,8 @@ class Loader(object):
                                                 date_dimension=date_dimension,
                                                 parts_count=parts_count,
                                                 part_number=part_number,
-                                                force_recreate=force_recreate)
+                                                force_recreate=force_recreate,
+                                                extra_params = extra_params)
                 if parts_count > 1:
                     logger.info('Processing part {} from {}'.format(
                         part_number, parts_count
