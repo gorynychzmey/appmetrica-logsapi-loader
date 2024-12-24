@@ -37,6 +37,7 @@ class Loader(object):
         self._chunk_size = chunk_size
         self._allow_cached = allow_cached
         self._progress_re = re.compile(r'.*Progress is (?P<progress>\d+)%.*')
+        self._charset = charset
 
     def _split_response(self, response: requests.Response):
         compression = response.headers.get('Content-Encoding')
@@ -45,7 +46,7 @@ class Loader(object):
         ))
         return pd.read_csv(response.raw,
                            compression=compression,
-                           encoding=response.encoding if charset is None else charset,
+                           encoding=response.encoding if self._charset is None else self._charset,
                            chunksize=self._chunk_size,
                            iterator=True)
 
