@@ -31,7 +31,8 @@ class LogsApiPartsCountError(LogsApiError):
 
 class Loader(object):
     def __init__(self, client: LogsApiClient, chunk_size: int,
-                 allow_cached: bool = False):
+                 allow_cached: bool = False,
+                 charset: str = None ):
         self.client = client
         self._chunk_size = chunk_size
         self._allow_cached = allow_cached
@@ -44,7 +45,7 @@ class Loader(object):
         ))
         return pd.read_csv(response.raw,
                            compression=compression,
-                           encoding=response.encoding,
+                           encoding=response.encoding if charset is None else charset,
                            chunksize=self._chunk_size,
                            iterator=True)
 
