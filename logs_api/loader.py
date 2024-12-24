@@ -39,6 +39,9 @@ class Loader(object):
 
     def _split_response(self, response: requests.Response):
         compression = response.headers.get('Content-Encoding')
+        logger.debug('Compression: {}, encoding: {}'.format(
+           compression, response.encoding
+        ))
         return pd.read_csv(response.raw,
                            compression=compression,
                            encoding=response.encoding,
