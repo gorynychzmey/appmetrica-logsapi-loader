@@ -73,7 +73,8 @@ class LogsApiClient(object):
                         parts_count: int,
                         part_number: int,
                         force_recreate: bool,
-                        extra_params: dict = None):
+                        extra_params: dict = None,
+                        extra_headers: dict = None):
         url = '{host}/logs/v1/export/{table}.csv'.format(
             host=self.host,
             table=table
@@ -103,6 +104,8 @@ class LogsApiClient(object):
             'Accept-Encoding': 'gzip',
             'Authorization': 'OAuth {}'.format(self.token)
         }
+        if extra_headers is not None:
+            headers.update(extra_headers)
         if force_recreate:
             headers['Cache-Control'] = 'no-cache'
 
