@@ -32,12 +32,14 @@ class LogsApiPartsCountError(LogsApiError):
 class Loader(object):
     def __init__(self, client: LogsApiClient, chunk_size: int,
                  allow_cached: bool = False,
-                 charset: str = None ):
+                 charset: str = None,
+                 params_read_csv: dict = {} ):
         self.client = client
         self._chunk_size = chunk_size
         self._allow_cached = allow_cached
         self._progress_re = re.compile(r'.*Progress is (?P<progress>\d+)%.*')
         self._charset = charset
+        self._params_read_csv = params_read_csv           
 
     def _split_response(self, response: requests.Response):
         compression = response.headers.get('Content-Encoding')
@@ -48,7 +50,8 @@ class Loader(object):
                            compression=compression,
                            encoding=response.encoding if self._charset is None else self._charset,
                            chunksize=self._chunk_size,
-                           iterator=True)
+                           iterator=True,
+                           **self._params_read_csv)
 
     def _process_error(self, status_code: int, text: str, parts_count: int,
                        progress: int, first_request: bool) \
