@@ -108,7 +108,8 @@ class LogsApiClient(object):
             headers.update(extra_headers)
         if force_recreate:
             headers['Cache-Control'] = 'no-cache'
-
+        logger.debug('Request Headers: {}'.format(headers))
+                          
         response = requests.get(url, params=params, headers=headers,
                                 stream=True)
         if response.status_code != 200:
