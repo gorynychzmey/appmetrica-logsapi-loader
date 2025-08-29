@@ -106,8 +106,9 @@ class LogsApiClient(object):
         }
         if extra_headers is not None:
             headers.update(extra_headers)
-        if force_recreate:
-            headers['Cache-Control'] = 'no-cache'
+#        if force_recreate:
+#            headers['Cache-Control'] = 'no-cache'
+        headers['Cache-Control'] = 'no-cache'
         logger.debug('Request Headers: {}'.format(headers))
                           
         response = requests.get(url, params=params, headers=headers,
